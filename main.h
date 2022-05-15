@@ -4,12 +4,12 @@
 //include
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <strings.h>
-
+#include <unistd.h> 
+#include <string.h> //strtok
+#include <sys/wait.h> //wait
 //functions
 void init_shell();
-void read_command();
+char *read_command();
 void execute(char*cmd);
 void parse_string();
 
