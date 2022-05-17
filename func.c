@@ -15,11 +15,13 @@ void init_shell(void)
 		size_t len = 100;
 		char *pwd = malloc(len);
 		char *cmd = malloc(1024);
+		char **argvs;
 	
 		user = getenv("USER");
 		getcwd(pwd, len);
 		printf("%s#%s$ ", user, pwd);
 		cmd = read_command();
+		argvs = parse_string(cmd);
 		execute(cmd);
 	}
 }
@@ -50,6 +52,49 @@ char *read_command(void)
 		return (NULL);
 	}
 }
+
+/**
+ * parse_string - parse string
+ * @cmd: string
+ * Return: pointer to string
+ *
+ */
+char **parse_string(char *cmd)
+{
+	char **argvs;
+	char *ptr = cmd;
+	char *buf;
+	int len = 0, i = 0;
+
+	//strtok "my name is" *(cmd++)
+	//{"john","mark","felix"} 
+	// \0 = 0
+	while (*cmd)
+	{
+		if (*cmd == ' ')
+			len++;
+		cmd++;
+	}
+	argvs = malloc((sizeof(char *)) * (len + 1));// {"d","c"}
+	buf = ptr = strtok(cmd," ");
+	while (ptr != NULL)
+	{
+		len = 0;
+		while (*ptr)//string\0 *ptr = s
+		{
+			len++;
+			ptr++;
+		}
+		argvs[i] = malloc((sizeof(char)) * (len + 1));
+		argvs[i] = buf;
+		printf("PTR: %s size: %d\n", buf, len);
+		buf = ptr = strtok(NULL, " ");
+		i++;
+	}
+	argvs[i] = buf;
+	return (argvs);
+}
+
 /**
  * execute - execute commands
  * @cmd: command
@@ -67,9 +112,8 @@ void execute (char *cmd) //(char *cmd, char *argv[], char **env)
 	if (p_id == 0)
 	{
 		execve(cmd, argvs, NULL);
-		_exit(p_id);
-	}
-	else
+		exit(1);
+	}else
 	{
 		wait(NULL);
 	}
@@ -78,3 +122,4 @@ void execute (char *cmd) //(char *cmd, char *argv[], char **env)
 // clear
 // exit
 // cd -> chdir(char *s)
+
