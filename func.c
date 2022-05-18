@@ -10,15 +10,10 @@ void init_shell(void)
 {
 	while (1)
 	{
-		char *user = malloc(20);
-		size_t len = 100;
-		char *pwd = malloc(len);
 		char *cmd = malloc(1024);
 		char **argvs;
 
-		user = getenv("USER");
-		getcwd(pwd, len);
-		printf("[%s@%s]$ ", user, pwd);
+		printf("#cisfun$");
 		cmd = read_command();
 		argvs = parse_string(cmd);
 		execute(cmd, argvs);
@@ -40,16 +35,21 @@ char *read_command(void)
 	if (buff == NULL)
 		return (NULL);
 	number_read = getline(&buff, &len, stdin);
-	if (number_read != -1)
+	while (number_read != -1)
 	{
 		buff = strtok(buff, "\n");
+		if (strcmp(buff, "\x04") == 0)
+		{
+			exit(1);
+		}
+		else if (strcmp(buff,"exit") == 0)
+		{
+			exit(1);
+		}
 		return (buff);
 	}
-	else
-	{
-		perror("exit");
-		return (NULL);
-	}
+	perror("exit");
+	return (NULL);
 }
 
 /**
