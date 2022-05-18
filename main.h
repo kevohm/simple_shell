@@ -15,7 +15,7 @@ void init_shell();
 
 char *read_command();
 
-void execute(char *cmd);
+void execute(char *cmd, char **argvs);
 
 char **parse_string(char *cmd);
 
