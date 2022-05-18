@@ -8,7 +8,7 @@
 #include <string.h>
 #include <sys/wait.h>
 
-void init_shell(char **argv);
+void init_shell(void);
 
 char *read_command(void);
 
