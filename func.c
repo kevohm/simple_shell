@@ -13,7 +13,7 @@ void init_shell(void)
 		char *cmd = malloc(1024);
 		char **argvs;
 
-		printf("#cisfun$");
+		printf("#cisfun$ ");
 		cmd = read_command();
 		argvs = parse_string(cmd);
 		execute(cmd, argvs);
@@ -38,11 +38,11 @@ char *read_command(void)
 	while (number_read != -1)
 	{
 		buff = strtok(buff, "\n");
-		if (strcmp(buff, "\x04") == 0)
+		if (feof(stdin) == -1)
 		{
-			exit(1);
+			return (NULL);
 		}
-		else if (strcmp(buff,"exit") == 0)
+		if (strcmp(buff, "exit") == 0)
 		{
 			exit(1);
 		}
@@ -66,6 +66,10 @@ char **parse_string(char *cmd)
 	char *buf;
 	int len = 0, i = 0;
 
+	if (cmd == NULL)
+	{
+		return (NULL);
+	}
 	while (*ptr)
 	{
 		if (*ptr == ' ')
@@ -102,6 +106,8 @@ void execute(char *cmd, char **argvs)
 {
 	int p_id = fork();
 
+	if (cmd == NULL)
+		exit(1);
 	if (p_id == -1)
 		perror("fork");
 	if (p_id == 0)
