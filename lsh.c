@@ -7,6 +7,6 @@
  */
 int main(int argc, char *argv[])
 {
-	init_shell();
+	init_shell(argv);
 	return (0);
 }

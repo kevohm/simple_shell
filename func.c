@@ -2,11 +2,11 @@
 
 /**
  * init_shell - Initializes shell
- * @void: no parameters
+ * @argv: array of strings
  * Return: void
  */
 
-void init_shell(void)
+void init_shell(char **argv)
 {
 	while (1)
 	{
@@ -103,17 +103,6 @@ void execute(char *cmd, char **argvs)
 	char *path = "/bin/";
 	char *ptr = malloc(1024), *buf;
 
-	buf = argvs[0];
-	cmd = ptr;
-	while (*path)
-	{
-		*(ptr++) = *(path++);
-	}
-	while (*buf)
-	{
-		*(ptr++) = *(buf++);
-	}
-	argvs[0] = cmd;
 	if (p_id == -1)
 		perror("fork");
 	if (p_id == 0)
