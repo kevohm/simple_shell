@@ -1,22 +1,19 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-//include
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h> 
-#include <string.h> //strtok
-#include <sys/wait.h> //wait
+#include <unistd.h>
+#include <string.h>
+#include <sys/wait.h>
 
-//functions
+void init_shell(void);
 
-void init_shell();
-
-char *read_command();
+char *read_command(void);
 
 void execute(char *cmd, char **argvs);
 
 char **parse_string(char *cmd);
 
-#endif 
+#endif

@@ -10,13 +10,12 @@ void init_shell(void)
 {
 	while (1)
 	{
-		//user@directory$ /bin/ls
 		char *user = malloc(20);
 		size_t len = 100;
 		char *pwd = malloc(len);
 		char *cmd = malloc(1024);
 		char **argvs;
-	
+
 		user = getenv("USER");
 		getcwd(pwd, len);
 		printf("[%s@%s]$ ", user, pwd);
@@ -43,7 +42,6 @@ char *read_command(void)
 	if (number_read != -1)
 	{
 		buff = strtok(buff, "\n");
-		//printf("buff %s\n", buff);
 		return (buff);
 	}
 	else
@@ -56,7 +54,8 @@ char *read_command(void)
 /**
  * parse_string - parse string
  * @cmd: string
- * Return: pointer to string{"ls","-la",".",NULL} cmd = "/bin/ls"
+ * Return: pointer to string
+ * Description: "ls -la ." => {"ls","-la",".",NULL}
  *
  */
 char **parse_string(char *cmd)
@@ -66,28 +65,24 @@ char **parse_string(char *cmd)
 	char *buf;
 	int len = 0, i = 0;
 
-	//strtok "my name is" *(cmd++)
-	//{"john","mark","felix"} 
-	// \0 = 0
 	while (*ptr)
 	{
 		if (*ptr == ' ')
 			len++;
 		ptr++;
 	}
-	argvs = malloc((sizeof(char *)) * (len + 1));// {"d","c"}
-	buf = ptr = strtok(cmd," ");
+	argvs = malloc((sizeof(char *)) * (len + 1));
+	buf = ptr = strtok(cmd, " ");
 	while (ptr != NULL)
 	{
 		len = 0;
-		while (*ptr)//string\0 *ptr = s
+		while (*ptr)
 		{
 			len++;
 			ptr++;
 		}
 		argvs[i] = malloc((sizeof(char)) * (len + 1));
 		argvs[i] = buf;
-		//printf("PTR: %s size: %d\n", buf, len);
 		buf = ptr = strtok(NULL, " ");
 		i++;
 	}
@@ -96,32 +91,29 @@ char **parse_string(char *cmd)
 	return (argvs);
 }
 
-/*
- * execute - execute commands
- * @cmd: command
- * return: Nothing
- *
- */
-void execute (char *cmd, char **argvs) //(char *cmd, char *argv[], char **env)
+/**
+  * execute - execute commands
+  * @cmd: command "ls"
+  * @argvs: array of arguements{"ls",args...,NULL}
+  * Return: Nothing
+  */
+void execute(char *cmd, char **argvs)
 {
 	int p_id = fork();
 	char *path = "/bin/";
 	char *ptr = malloc(1024), *buf;
 
-	//add path
 	buf = argvs[0];
 	cmd = ptr;
-	while(*path)
+	while (*path)
 	{
 		*(ptr++) = *(path++);
 	}
-	while(*buf)
+	while (*buf)
 	{
 		*(ptr++) = *(buf++);
-	}	
+	}
 	argvs[0] = cmd;
-	//printf("cmd: %s argvs: %s\n",cmd ,argvs[0]);
-	//execute /bin/ls -la
 	if (p_id == -1)
 		perror("fork");
 	if (p_id == 0)
@@ -134,9 +126,3 @@ void execute (char *cmd, char **argvs) //(char *cmd, char *argv[], char **env)
 		wait(NULL);
 	}
 }
-// parse_string {"ls", "-la", NULL}
-// ls
-// clear
-// exit
-// cd -> chdir(char *s)
-

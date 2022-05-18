@@ -1,7 +1,12 @@
 #include "main.h"
-
-int main (int argc, char *argv[])
+/**
+ * main - body function
+ * @argc: integer
+ * @argv: pointer to char*
+ * Return: 0
+ */
+int main(int argc, char *argv[])
 {
 	init_shell();
-	return(0);
+	return (0);
 }
