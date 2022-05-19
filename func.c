@@ -13,7 +13,6 @@ void init_shell(void)
 		char *cmd = malloc(1024);
 		char **argvs;
 
-		//printf("#cisfun$ ");
 		cmd = read_command();
 		argvs = parse_string(cmd);
 		execute(cmd, argvs);
