@@ -1,6 +1,6 @@
 *.exe
 *.out
 push
-*.ghc
+*.gch
 *.swp
 *.sop
