@@ -1,1 +1,6 @@
-~*.exe
+*.exe
+*.out
+push
+*.gch
+*.swp
+*.sop
