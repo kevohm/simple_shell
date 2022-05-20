@@ -14,6 +14,7 @@ void process_pipe(error *ptr_error)
 	nread = read(0, buf, len);
 	if (nread != -1)
 	{
+		buf = strtok(buf, "\n");
 		cmd = buf;
 		while (*buf)
 		{
@@ -22,10 +23,17 @@ void process_pipe(error *ptr_error)
 			i++;
 			buf++;
 		}
-		write(1, cmd, (i + 1));
-		argvs = malloc(sizeof(char *) * (j + 1));
-		argvs = _strtrim(argvs, cmd);
-		execute(cmd, argvs, ptr_error);
+		argvs = parse_string(cmd, ptr_error);
+		i =  fork();
+		if (i == 0)
+		{
+			execve(argvs[0], argvs,  NULL);
+			exit(1);
+		}
+		else
+		{
+			wait(0);
+		}
 	}
 	else
 	{

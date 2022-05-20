@@ -8,10 +8,10 @@
 int main(int argc, char **argv)
 {
 	error *ptr_error, error_cmd;
-	global *ptr_global, global_var;
+	global *ptr_global, global_cmd;
 
 	ptr_error = &error_cmd;
-	ptr_global = &global_var;
+	ptr_global = &global_cmd;
 	init_var(ptr_error, ptr_global, argc, argv);
 	init_shell(ptr_error, ptr_global);
 

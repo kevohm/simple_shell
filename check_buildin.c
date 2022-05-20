@@ -1,11 +1,25 @@
 #include "main.h"
 /**
  * check_buildin - check for more functionality
- * @cmd: command
- * Return: Nothing
+ * @argvs: command
+ * Return: integer
  */
-void check_buildin(char *cmd)
+int check_buildin(char **argvs)
 {
-	write(1, "processing", 11);
-	printf("\n%s\n", cmd);
+	builtin arr[] = {
+		{"exit", exit_cmd},
+		{"cd", cd_cmd},
+		{"clear", clear_cmd},
+		{"help", help_cmd},
+		{NULL, NULL}
+	};
+	for (int i = 0; i < 4; i++)
+	{
+		if (arr[i].cmd && (argvs[1] == NULL))
+		{
+			if ((strcmp(arr[i].cmd, argvs[0])) == 0)
+				return (arr[i].f(argvs));
+			return (0);
+		}
+	}
 }

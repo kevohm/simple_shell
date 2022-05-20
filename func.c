@@ -57,10 +57,6 @@ char *read_command(error *ptr_error)
 		{
 			return (NULL);
 		}
-		if (strcmp(buff, "exit") == 0)
-		{
-			exit(1);
-		}
 		return (buff);
 	}
 	else
@@ -132,13 +128,22 @@ char **parse_string(char *cmd, error *ptr_error)
 void execute(char *cmd, char **argvs, error *ptr_error)
 {
 	int p_id = fork();
+	int i = 0;
 
 	if (ptr_error->msg != NULL)
 	{
 		ptr_error->status = 0;
 		return;
 	}
-	check_buildin(cmd);
+	i = check_buildin(argvs);
+	if (i == 1)
+	{
+		return;
+	}
+	else if (i == 2)
+	{
+		exit(1);
+	}
 	if (p_id == -1)
 	{
 		ptr_error->msg = "fork";
