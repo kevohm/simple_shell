@@ -1,7 +1,0 @@
-#ignore
-*.exe
-*.out
-push
-*.gch
-*.swp
-*.sop
